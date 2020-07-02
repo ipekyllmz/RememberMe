@@ -1,0 +1,96 @@
+﻿@model uygulama.Models.Entity.etkinlik
+@{
+    ViewBag.Title = "Anasayfa";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Anasayfa</title>
+    <link href="~/Content/fullcalendar.min.css" rel="stylesheet" />
+    <link href="~/Content/css/calendar.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="content">
+        <div class="calendar-container">
+            <div class="calendar">
+                <div class="year-header">
+                    <span class="left-button" id="prev"> &lang; </span>
+                    <span class="year" id="label"></span>
+                    <span class="right-button" id="next"> &rang; </span>
+                </div>
+                <table class="months-table">
+                    <tbody>
+                        <tr class="months-row">
+                            <td class="month">Ocak</td>
+                            <td class="month">Şubat</td>
+                            <td class="month">Mart</td>
+                            <td class="month">Nisan</td>
+                            <td class="month">Mayıs</td>
+                            <td class="month">Haziran</td>
+                            <td class="month">Temmuz</td>
+                            <td class="month">Ağustos</td>
+                            <td class="month">Eylül</td>
+                            <td class="month">Ekim</td>
+                            <td class="month">Kasım</td>
+                            <td class="month">Aralık</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="days-table">
+                    <td class="day">Pazar</td>
+                    <td class="day">Pazartesi</td>
+                    <td class="day">Salı</td>
+                    <td class="day">Çarşamba</td>
+                    <td class="day">Perşembe</td>
+                    <td class="day">Cuma</td>
+                    <td class="day">Cumartesi</td>
+                </table>
+                <div class="frame">
+                    <table class="dates-table">
+                        <tbody class="tbody">
+                        </tbody>
+                    </table>
+                </div>
+                <button class="button" id="add-button">Etkinlik Ekle</button>
+            </div>
+        </div>
+        <div class="events-container">
+        </div>
+        <div class="dialog" id="dialog">
+            <h2 class="dialog-header"> Yeni Etkinlik </h2>
+            <form class="form" id="form">
+                <div class="form-container" align="center">
+                    <label class="form-label" id="valueFromMyButton" for="EtkinlikAdi">Etkinlik ismi</label> 
+                    <input class="input" type="text" name="EtkinlikAdi" id="EtkinlikAdi" maxlength="36" >
+
+                    <label class="form-label" id="valueFromMyButton" for="Kisi">Kişi</label>
+                    <input class="input" type="text" name="Kisi" id="Kisi" />
+
+                    <label class="form-label" id="valueFromMyButton" for="Not">Not </label>
+                    <input class="input" type="text" id="Not" name="Not">
+
+
+                    <button type="submit"  class="button" id="ok-button"> Kaydet</button>
+                    <button type="submit"  class="button" id="cancel-button"> İptal</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/moment-with-locales.min.js"></script>
+    <script src="~/Scripts/fullcalendar/fullcalendar.min.js"></script>
+    <script src="~/Scripts/fullcalendar/locale-all.js"></script>
+     <script src="~/Scripts/calendar.js"></script>
+</body>
+
+</html>
+

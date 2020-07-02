@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/css/sidebar.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="file:///C:/Users/90538/AppData/Local/Temp/Rar$EXa1568.37687/startbootstrap-simple-sidebar-gh-pages/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Damion&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+
+    <style>
+        .cikisbuton {
+            color: floralwhite;
+            font-family: 'Fira Sans', sans-serif;
+        }
+
+            .cikisbuton:hover {
+                text-decoration-line: none;
+            }
+
+        #cikisyap {
+            width: 76px;
+            height: 30px;
+            position: relative;
+            left: 965px;
+            background-color:transparent;
+            border: 2px solid dashed;
+            border-radius: 7px;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+
+            <nav class="navbar navbar-expand-lg navbar-light  border-bottom" id="nav">
+
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+                    <div id="YanMenu" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" style="color:floralwhite;">
+
+                            &times;
+                        </a>
+                        <br /><br />
+                        <a href="../Home/Profil" class="side-a" style="color: floralwhite;font-family: 'PT Sans', sans-serif;font-size:20px; text-decoration-line:none">Profil</a>
+                        <hr />
+                        <a href="../Home/Arkadaslar" class="side-a" style="color: floralwhite;font-family: 'PT Sans', sans-serif;font-size: 20px; text-decoration-line:none">Arkadaşlar</a>
+                        <hr />
+                        <a href="../Home/KayitliNotlar"  class="side-a" style="color: floralwhite;font-family: 'PT Sans', sans-serif;font-size: 20px;text-decoration-line:none">Kayıtlı Notlar</a>
+                        <hr />
+                        <a href="../Home/Dogumgunleri"  class="side-a" style="color: floralwhite;font-family: 'PT Sans', sans-serif;font-size: 20px;text-decoration-line:none">Doğum Günleri</a>
+                    </div>
+                    <div style="        font-size: 30px;
+        cursor: pointer;
+        font-family: 'Damion', cursive;
+        color: #e4dfeb;
+    " onclick="openNav()">
+                        &#9776; &nbsp; RememberMe
+                    </div>
+                    <button type="button" id="cikisyap" class="btn btn-light btn-sm">@Html.ActionLink("Çıkış Yap", "GirisYap", "Home",new { @class="cikisbuton" })</button>
+                </div>
+            </nav>
+        </div>
+    </div>
+    
+    <script>
+        function openNav() {
+            document.getElementById("YanMenu").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("YanMenu").style.width = "0";
+        }
+    </script>
+    @RenderBody()
+
+    <footer class="page-footer font-small blue">
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3" style="position: relative; top: 280px;">
+            <button type="button" onclick="window.location='http://www.instagram.com';" style="padding: 0px 0px; border-style: hidden; border-width: 0px; border-color: transparent; background-color: transparent;"><img src="~/Content/img/instagram.png" style="width: 32px;" /></button> &nbsp;
+            <button type="button" onclick="window.location='http://www.facebook.com';" style="padding: 0px 0px; border-style: hidden; border-width: 0px; border-color: transparent; background-color: transparent;"><img src="~/Content/img/facebook.png" style="width: 32px;" /></button> &nbsp;
+            <button type="button" onclick="window.location='http://www.twitter.com';" style="padding: 0px 0px; border-style: hidden; border-width: 0px; border-color: transparent; background-color: transparent;"><img src="~/Content/img/twitter.png" style="width: 32px;" /></button> <br />
+            <p> Tüm Hakları Saklıdır. © 2020</p>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
+    <script src="file:///C:/Users/90538/AppData/Local/Temp/Rar$EXa1568.37687/startbootstrap-simple-sidebar-gh-pages/vendor/jquery/jquery.min.js"></script>
+    <script src="file:///C:/Users/90538/AppData/Local/Temp/Rar$EXa1568.37687/startbootstrap-simple-sidebar-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/sidebar.js"></script>
+   
+
+</body>
+
+</html>
+

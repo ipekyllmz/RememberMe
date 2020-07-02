@@ -1,0 +1,158 @@
+﻿@model uygulama.Models.Entity.uye
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UyeOl</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .container {
+            width: 600px;
+            height: 800px;
+            position: relative;
+            top: 80px;
+            background-color: #9A76B3;
+            border-radius: 10px;
+            font-family: 'PT Sans Narrow', sans-serif;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        button {
+            position: relative;
+            left: 250px;
+        }
+
+        body {
+            background-image: url(../../Content/arkaplan/white-painted-wall-1939485.jpg);
+            width: 100%;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <br />
+        @using (Html.BeginForm("UyeOl", "Uye", FormMethod.Post))
+        {
+    <div style="width:600px; height:300px;">
+        <br />
+        <div style="position:relative; left:225px; top:-40px; font-size:40px; ">
+            <p>Kayıt Ol</p>
+        </div>
+        <div>
+            <div class="form-group ">
+                @Html.LabelFor(x => x.UyeAdi, htmlAttributes: new { @class = "control-label col-sm-3" })
+                <span style=" position: relative; right: 118px;">-</span>
+                @Html.LabelFor(x => x.UyeSoyadi, htmlAttributes: new { @class = "control-label col-sm-3", @style = "position: relative;right: 130px;" })
+            <div class="col-sm-6 ">
+                @Html.EditorFor(x => x.UyeAdi, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.UyeAdi, "", new { @class = "text-danger" })
+               
+
+            </div>
+            </div>
+
+
+            @*<div class="form-group ">
+                @Html.LabelFor(x => x.UyeSoyadi, htmlAttributes: new { @class = "control-label col-sm-3", placeholder = "Soyad" })
+                <div class="col-sm-6">
+                    @Html.EditorFor(x => x.UyeSoyadi, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(x => x.UyeSoyadi, "", new { @class = "text-danger" })
+
+                </div>
+            </div>*@
+        </div>
+
+        <div class="form-group ">
+            @Html.LabelFor(x => x.KullaniciAdi, htmlAttributes: new { @class = "control-label col-sm-3", placeholder = "Kullanıcı Adı" })
+            <div class="col-sm-6 ">
+                @Html.EditorFor(x => x.KullaniciAdi, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.KullaniciAdi, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+
+        <div class="form-group ">
+            @Html.LabelFor(x => x.UyeMail, htmlAttributes: new { @class = "control-label col-sm-3", placeholder = "E-Mail" })
+            <div class="col-sm-6 ">
+                @Html.EditorFor(x => x.UyeMail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.UyeMail, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+
+        <div class="form-group ">
+            @Html.LabelFor(x => x.UyeMail2, htmlAttributes: new { @class = "control-label col-sm-3", placeholder = "E-Mail Doğrula" })
+            <div class="col-sm-6 ">
+                @Html.EditorFor(x => x.UyeMail2, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.UyeMail2, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+
+        <div class="form-group ">
+            @Html.LabelFor(x => x.Sifre, htmlAttributes: new { @class = "control-label col-sm-3", placeholder = "Şifre" })
+            <div class="col-sm-6 ">
+                @Html.EditorFor(x => x.Sifre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Sifre, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+
+        <div class="form-group ">
+            @Html.LabelFor(x => x.Sifre2, htmlAttributes: new { @class = "control-label col-sm-3", placeholder = "Şifre Doğrula" })
+            <div class="col-sm-6 ">
+                @Html.EditorFor(x => x.Sifre2, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Sifre2, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <br />
+        <button type="submit" style="background-color: #2F3640;
+        border: 2px solid #2F3640;
+        border-radius: 5px;
+        color: white;
+        width: 80px;
+        height: 45px; left:235px ">
+            Kayıt Ol
+        </button>
+
+
+        <div class="input-group">
+            @if (ViewBag.Result != null)
+            {
+                <div class="alert alert-@ViewBag.Result" role="alert">@ViewBag.Result</div>
+            }
+            else
+            {
+        <div class="alert alert-@ViewBag.Result" role="alert">@ViewBag.Result</div>
+            }
+        </div>
+    </div>
+        }
+    </div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+       
+    </body>
+</html>
+

@@ -23,7 +23,7 @@ namespace uygulama.Models.Entity
         [Required()]
         public int DogumGunu { get; set; }
         [Required()]
-        public int DogumTarihi { get; set; }
+        public string DogumTarihi { get; set; }
 
         [Required()]
         public string Kisi { get; set; }

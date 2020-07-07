@@ -8,6 +8,8 @@ using System.Text;
 using uygulama.Models.Entity;
 using uygulama.Models.Context;
 using System.Data.Entity.Validation;
+using System.Data.SqlClient;
+using System.Web.Helpers;
 
 namespace uygulama.Controllers
 {
@@ -53,19 +55,26 @@ namespace uygulama.Controllers
         }
 
         [HttpGet]
-        public ActionResult EtkinlikEkle()
+        public JsonResult EtkinlikEkle()
         {
-            return View(new etkinlik());
+            
+            DatabaseContext db = new DatabaseContext();
+            List<etkinlik> Etkinlik = db.Etkinlik.ToList();
+          
+
+
+
+            return Json(Etkinlik, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult EtkinlikEkle(etkinlik etkinlik)
+        public JsonResult EtkinlikEkle(string date)
         {
             try
             {
                 DatabaseContext db = new DatabaseContext();
-                List<etkinlik> Etkinlik = db.Etkinlik.ToList();
-                var result = db.Etkinlik.Add(etkinlik);
-                int sonuc = db.SaveChanges();
+                List<etkinlik> etkinlikler = db.Etkinlik.Where(q => q.DogumTarihi == date).ToList();
+
+                return Json(etkinlikler, JsonRequestBehavior.AllowGet);
 
             }
             catch (DbEntityValidationException e)
@@ -82,8 +91,9 @@ namespace uygulama.Controllers
                 }
                 throw;
             }
-            return View();
+            
             
         }
+
     }
 }

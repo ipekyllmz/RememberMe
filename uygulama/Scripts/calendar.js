@@ -74,11 +74,49 @@ function days_in_month(month, year) {
 
 // Event handler for when a date is clicked
 function date_click(event) {
+    var gun = $(".active-date").html();
+    var month = $(".active-month").html();
+    var yıl = $("#label").html();
+    var tarih = gun + month + yıl;
     $(".events-container").show(250);
     $("#dialog").hide(250);
     $(".active-date").removeClass("active-date");
     $(this).addClass("active-date");
-    show_events(event.data.events, event.data.month, event.data.day);
+    //$(".active-date").click({ date: event.data.date }, function () {
+       
+    //})
+    $.ajax({
+        url: '/Home/EtkinlikEkle',
+        type: 'POST',
+        async: false,
+        data: { date: tarih },
+        success: function (data) {  
+            
+            $(data).each(function (index, value) {
+                console.log(value);
+                event_data.events.push(data);
+
+                
+
+                //$('#form').append(html);
+
+                //$(".events-container").show(250);
+                //$("#EtkinlikAdi").val(value.EtkinlikAdi);
+                //$("#Not").val(value.Not);
+                //$("#Kisi").val(value.Kisi);
+                //$(".active-date").val(value.DogumGunu);
+            });
+
+            show_events(event_data.events,month, gun);           
+        },
+        error: function (hata, ajaxOptions, thrownError) {
+            alert(hata.status);
+            alert(thrownError);
+            alert(hata.responseText);
+        }   
+       
+    });
+    //show_events(event.data.events, event.data.month, event.data.day);
 };
 
 // Event handler for when a month is clicked
@@ -118,6 +156,7 @@ function new_event(event) {
     // if a date isn't selected then do nothing
     if ($(".active-date").length === 0)
         return;
+   
     // remove red error input on click
     $("input").click(function () {
         $(this).removeClass("error-input");
@@ -138,10 +177,12 @@ function new_event(event) {
     });
     // Event handler for ok button
     $("#ok-button").click({ date: event.data.date }, function (event) {
-
         var date = event.data.date;
-        date = getDate;
+        var gun = $(".active-date").html();
+        var month = $(".active-month").html();
+        var yıl = $("#label").html();
         var EtkinlikAdi = $("#EtkinlikAdi").val();
+        var tarih = gun + month + yıl;
         var Not = ($("#Not").val());
         var day = parseInt($(".active-date").html());
         var Kisi = $("#Kisi").val();
@@ -152,7 +193,7 @@ function new_event(event) {
          else {
             $("#dialog").hide(250);
             console.log("new event");
-            new_event_json(EtkinlikAdi, Not, date, day,Kisi);
+            new_event_json(EtkinlikAdi, Not, date, day, Kisi);
             date.setDate(day);
             init_calendar(date);
         }
@@ -164,7 +205,7 @@ function new_event(event) {
             data: {
                      'EtkinlikAdi': EtkinlikAdi,
                      'Not': Not,
-                     'DogumTarihi': date,
+                     'DogumTarihi': tarih,
                      'DogumGunu': day,
                      'Kisi': Kisi } ,
             success: function (data) {
@@ -175,15 +216,16 @@ function new_event(event) {
 }
 
 // Adds a json event to event_data
-function new_event_json(EtkinlikAdi, Not, date, day,Kisi) {
+function new_event_json(EtkinlikAdi, Not, date, day, Kisi) {
     var event = {
-        "occasion": EtkinlikAdi,
-        "invited_Kisi": Kisi,
-        "invited_Not": Not,
-        "year": data.date,
+        "Etkinlik": EtkinlikAdi,
+        "Kisi": Kisi,
+        "Not": Not,
+        "year": date.getFullYear(),
         "month": date.getMonth() + 1,
-        "day": day,
-        "Kisi": Kisi
+        "day": day
+
+        
     };
     event_data["events"].push(event);
 }
@@ -206,14 +248,14 @@ function show_events(events, month, day) {
         // Go through and add each event as a card to the events container
         for (var i = 0; i < events.length; i++) {
             var event_card = $("<div class='event-card'></div>");
-            var event_EtkinlikAdi = $("<div class='event-EtkinlikAdi'>" + events[i]["occasion"] + ":</div>");
-            var event_Not = $("<div class='event-Not'>" + events[i]["invited_Not"] + " Invited</div>");
-            var event_Kisi = $("<div class='event-Kisi'>" + events[i]["invited_Kisi"] + " Invited</div>");
+            var event_EtkinlikAdi = $("<div class='event-EtkinlikAdi'>" + events[i][0].EtkinlikAdi + ":</div>");
+            var event_Not = $("<div class='event-Not'>" + events[i][0].Not + " </div>");
+            var event_Kisi = $("<div class='event-Kisi'>" + events[i][0].Kisi + " </div>");
             if (events[i]["cancelled"] === true) {
                 $(event_card).css({
                     "border-left": "10px solid #FF1744"
                 });
-                event_Not = $("<div class='event-cancelled'>Cancelled</div>");
+                event_Not = $("<div class='event-cancelled'>İptal Edildi.</div>");
             }
             $(event_card).append(event_EtkinlikAdi).append(event_Not).append(event_Kisi);
             $(".events-container").append(event_card);
@@ -237,110 +279,7 @@ function check_events(day, month, year,) {
 
 // Given data for events in JSON format
 var event_data = {
-    "events": [
-        {
-            "occasion": EtkinlikAdi,
-            "invited_Not": Not,
-            "invited_Kisi": Kisi,
-            "year": getFullYear,
-            "month": getMonth,
-            "day": getDay,
-            "cancelled": true
-        },
-        {
-            "occasion": " Repeated Test Event ",
-            "invited_Not": "naber",
-            "invited_Kisi": "ipek",
-            "year": 2017,
-            "month": 5,
-            "day": 11,
-            "cancelled": true
-        },
-        {
-            "occasion": " Repeated Test Event ",
-            "invited_Not": "naber",
-            "invited_Kisi": "ipek",
-            "year": 2017,
-            "month": 5,
-            "day": 11,
-            "cancelled": true
-        },
-        {
-            "occasion": " Repeated Test Event ",
-            "invited_Not": "naber",
-            "invited_Kisi": "ipek",
-            "year": 2017,
-            "month": 5,
-            "day": 11
-        },
-        {
-            "occasion": " Repeated Test Event ",
-            "invited_Not": "naber",
-            "invited_Kisi": "ipek",
-            "year": 2017,
-            "month": 5,
-            "day": 11,
-            "cancelled": true
-        },
-        {
-            "occasion": " Repeated Test Event ",
-            "invited_Not": "naber",
-            "invited_Kisi": "ipek",
-            "year": 2017,
-            "month": 5,
-            "day": 11
-        },
-        {
-            "occasion": " Repeated Test Event ",
-            "invited_Not": "naber",
-            "invited_Kisi": "ipek",
-            "year": 2017,
-            "month": 5,
-            "day": 11,
-            "cancelled": true
-        },
-        {
-            "occasion": " Repeated Test Event ",
-            "invited_Not": "naber",
-            "invited_Kisi": "ipek",
-            "year": 2017,
-            "month": 5,
-            "day": 11
-        },
-        {
-            "occasion": " Repeated Test Event ",
-            "invited_Not": "naber",
-            "invited_Kisi": "ipek",
-            "year": 2017,
-            "month": 5,
-            "day": 11,
-            "cancelled": true
-        },
-        {
-            "occasion": " Repeated Test Event ",
-            "invited_Not": "naber",
-            "invited_Kisi": "ipek",
-            "year": 2017,
-            "month": 5,
-            "day": 11
-        },
-        {
-            "occasion": " Test Event",
-            "invited_Not": "naber",
-            "invited_Kisi": "ipek",
-            "year": 2017,
-            "month": 5,
-            "day": 11
-        },
-        {
-            "occasion": " saasasas",
-            "invited_Not": "nabassaasaser",
-            "invited_Kisi": "ipasasasek",
-            "year": 2017,
-            "month": 5,
-            "day": 11
-        }
-    ]
+    "events": []
 };
 
 const months = [

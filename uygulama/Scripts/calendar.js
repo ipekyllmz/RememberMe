@@ -1,18 +1,25 @@
 ﻿
 // Setup the calendar with the current date
+
+
 $(document).ready(function () {
     var date = new Date();
-    var today = date.getDate();
+    var month = date.getMonth();
+    var months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+    var day = date.getDate().toString();
+       
     // Set click handlers for DOM elements
     $(".right-button").click({ date: date }, next_year);
     $(".left-button").click({ date: date }, prev_year);
     $(".month").click({ date: date }, month_click);
     $("#add-button").click({ date: date }, new_event);
+    $("#cancel-button").click({ date: date });
     // Set current month as active
     $(".months-row").children().eq(date.getMonth()).addClass("active-month");
     init_calendar(date);
-    var events = check_events(today, date.getMonth() + 1, date.getFullYear());
-    show_events(events, months[date.getMonth()], today);
+    var events = check_events(day, date.getMonth() + 1, date.getFullYear());
+    show_events(events, months[date.getMonth()], day);
+    
 });
 
 // Initialize the calendar by appending the HTML dates
@@ -49,7 +56,7 @@ function init_calendar(date) {
             var events = check_events(day, month + 1, year);
             if (today === day && $(".active-date").length === 0) {
                 curr_date.addClass("active-date");
-                show_events(events, months[month], day);
+                show_events(events, months[month], today);
             }
             // If this date has any events, style it with .event-date
             if (events.length !== 0) {
@@ -74,50 +81,41 @@ function days_in_month(month, year) {
 
 // Event handler for when a date is clicked
 function date_click(event) {
-    var gun = $(".active-date").html();
+    var day = $(".active-date").html();
     var month = $(".active-month").html();
     var yıl = $("#label").html();
-    var tarih = gun + month + yıl;
+    var tarih = day + month + yıl;
     $(".events-container").show(250);
     $("#dialog").hide(250);
     $(".active-date").removeClass("active-date");
     $(this).addClass("active-date");
-    //$(".active-date").click({ date: event.data.date }, function () {
-       
-    //})
-    $.ajax({
-        url: '/Home/EtkinlikEkle',
-        type: 'POST',
-        async: false,
-        data: { date: tarih },
-        success: function (data) {  
-            
-            $(data).each(function (index, value) {
-                console.log(value);
-                event_data.events.push(data);
+    $(".active-date").click(function (event) {
 
-                
 
-                //$('#form').append(html);
+        $.ajax({
+            url: '/Home/EtkinlikGetir',
+            type: 'POST',
+            async: false,
+            data: { date: tarih },
+            success: function (data) {
 
-                //$(".events-container").show(250);
-                //$("#EtkinlikAdi").val(value.EtkinlikAdi);
-                //$("#Not").val(value.Not);
-                //$("#Kisi").val(value.Kisi);
-                //$(".active-date").val(value.DogumGunu);
-            });
+                $(data).each(function (value) {
+                    console.log(value);
+                    event_data.events.push(data);
+                    show_events(event_data.events, month, day);
+                });
 
-            show_events(event_data.events,month, gun);           
-        },
-        error: function (hata, ajaxOptions, thrownError) {
-            alert(hata.status);
-            alert(thrownError);
-            alert(hata.responseText);
-        }   
-       
-    });
-    //show_events(event.data.events, event.data.month, event.data.day);
-};
+
+            },
+            error: function (hata, thrownError) {
+                alert(hata.status);
+                alert(thrownError);
+                alert(hata.responseText);
+            }
+        });
+        });
+    show_events(event.data.events, event.data.month, event.data.day);
+    };
 
 // Event handler for when a month is clicked
 function month_click(event) {
@@ -173,50 +171,54 @@ function new_event(event) {
         $("#Not").removeClass("error-input");
         $("#Kisi").removeClass("error-input");
         $("#dialog").hide(250);
+
         $(".events-container").show(250);
     });
     // Event handler for ok button
     $("#ok-button").click({ date: event.data.date }, function (event) {
         var date = event.data.date;
-        var gun = $(".active-date").html();
+        var day = $(".active-date").html();
         var month = $(".active-month").html();
         var yıl = $("#label").html();
         var EtkinlikAdi = $("#EtkinlikAdi").val();
-        var tarih = gun + month + yıl;
+        var tarih = day + month + yıl;
         var Not = ($("#Not").val());
-        var day = parseInt($(".active-date").html());
+        //var day = parseInt($(".active-date").html());
         var Kisi = $("#Kisi").val();
         // Basic form validation
         if (EtkinlikAdi.length === 0) {
             $("#EtkinlikAdi").addClass("error-input");
         }
-         else {
+        else  {
             $("#dialog").hide(250);
             console.log("new event");
             new_event_json(EtkinlikAdi, Not, date, day, Kisi);
             date.setDate(day);
             init_calendar(date);
         }
-
+        
         $.ajax({
             url: '/Home/EtkinlikEkle',
             type: 'POST',
             dataType: 'json',
             data: {
-                     'EtkinlikAdi': EtkinlikAdi,
-                     'Not': Not,
-                     'DogumTarihi': tarih,
-                     'DogumGunu': day,
-                     'Kisi': Kisi } ,
+                'EtkinlikAdi': EtkinlikAdi,
+                'Not': Not,
+                'DogumTarihi': tarih,
+                'DogumGunu': day,
+                'Kisi': Kisi
+            },
             success: function (data) {
             alert(data.d);
         }
         })
     });
+  
 }
 
 // Adds a json event to event_data
 function new_event_json(EtkinlikAdi, Not, date, day, Kisi) {
+  
     var event = {
         "Etkinlik": EtkinlikAdi,
         "Kisi": Kisi,
@@ -232,6 +234,7 @@ function new_event_json(EtkinlikAdi, Not, date, day, Kisi) {
 
 // Display all events of the selected date in card views
 function show_events(events, month, day) {
+   
     // Clear the dates container
     $(".events-container").empty();
     $(".events-container").show(250);
@@ -244,19 +247,24 @@ function show_events(events, month, day) {
         $(event_card).append(event_EtkinlikAdi);
         $(".events-container").append(event_card);
     }
-    else {
+    else
+    {
         // Go through and add each event as a card to the events container
         for (var i = 0; i < events.length; i++) {
-            var event_card = $("<div class='event-card'></div>");
-            var event_EtkinlikAdi = $("<div class='event-EtkinlikAdi'>" + events[i][0].EtkinlikAdi + ":</div>");
-            var event_Not = $("<div class='event-Not'>" + events[i][0].Not + " </div>");
-            var event_Kisi = $("<div class='event-Kisi'>" + events[i][0].Kisi + " </div>");
-            if (events[i]["cancelled"] === true) {
-                $(event_card).css({
-                    "border-left": "10px solid #FF1744"
-                });
-                event_Not = $("<div class='event-cancelled'>İptal Edildi.</div>");
-            }
+           
+                var event_card = $("<div class='event-card'></div>");
+                var event_EtkinlikAdi = $("<div class='event-EtkinlikAdi'>Etkinlik Adı:" + events[i]["EtkinlikAdi"] + "</div>");
+                var event_Kisi = $("<div class='event-Kisi'>Kişi:" + events[i]["Kisi"] + " </div>");
+                var event_Not = $("<div class='event-Not'>Not:" + events[i]["Not"] + " </div>");
+          
+            
+           
+            //if (events[i]["cancelled"] === true) {
+            //    $(event_card).css({
+            //        "border-left": "10px solid #FF1744"
+            //    });
+            //    event_Not = $("<div class='event-cancelled'>İptal Edildi.</div>");
+            //}
             $(event_card).append(event_EtkinlikAdi).append(event_Not).append(event_Kisi);
             $(".events-container").append(event_card);
         }
@@ -279,7 +287,25 @@ function check_events(day, month, year,) {
 
 // Given data for events in JSON format
 var event_data = {
-    "events": []
+    "events": [
+        {
+            "EtkinlikAdi": "parti1 ",
+            "Not": "selam",
+            "Kisi":"ipek",
+            "year": 2020,
+            "month": 7,
+            "day": 25,
+            "cancelled": true
+        },
+        {
+            "EtkinlikAdi": "parti2 ",
+            "Not": "naber",
+            "Kisi": "özlem",
+            "year": 2020,
+            "month": 7,
+            "day": 8
+        }
+    ]
 };
 
 const months = [

@@ -12,7 +12,8 @@ namespace uygulama.Models.Entity
     public class etkinlik
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int 
+            ID { get; set; }
 
         [Required()]
         public string EtkinlikAdi { get; set; }
@@ -21,7 +22,7 @@ namespace uygulama.Models.Entity
         public string Not { get; set; }
 
         [Required()]
-        public int DogumGunu { get; set; }
+        public string DogumGunu { get; set; }
         [Required()]
         public string DogumTarihi { get; set; }
 

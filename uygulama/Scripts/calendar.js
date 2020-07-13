@@ -6,8 +6,9 @@ $(document).ready(function () {
     var date = new Date();
     var month = date.getMonth();
     var months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
-    var day = date.getDate().toString();
-       
+    var today = date.getDate().toString();
+    var year = date.getFullYear().toString();
+    
     // Set click handlers for DOM elements
     $(".right-button").click({ date: date }, next_year);
     $(".left-button").click({ date: date }, prev_year);
@@ -17,8 +18,8 @@ $(document).ready(function () {
     // Set current month as active
     $(".months-row").children().eq(date.getMonth()).addClass("active-month");
     init_calendar(date);
-    var events = check_events(day, date.getMonth() + 1, date.getFullYear());
-    show_events(events, months[date.getMonth()], day);
+    var events = check_events(today, date.getMonth() + 1, date);
+    show_events(events, months[date.getMonth()], today);
     
 });
 
@@ -56,6 +57,7 @@ function init_calendar(date) {
             var events = check_events(day, month + 1, year);
             if (today === day && $(".active-date").length === 0) {
                 curr_date.addClass("active-date");
+                date_click();
                 show_events(events, months[month], today);
             }
             // If this date has any events, style it with .event-date
@@ -79,44 +81,55 @@ function days_in_month(month, year) {
     return (monthEnd - monthStart) / (1000 * 60 * 60 * 24);
 }
 
+
 // Event handler for when a date is clicked
-function date_click(event) {
-    var day = $(".active-date").html();
-    var month = $(".active-month").html();
-    var yıl = $("#label").html();
-    var tarih = day + month + yıl;
+function date_click() {
     $(".events-container").show(250);
     $("#dialog").hide(250);
     $(".active-date").removeClass("active-date");
     $(this).addClass("active-date");
-    $(".active-date").click(function (event) {
+    
+    var day = $(".active-date").html();
+    var month = $(".active-month").html();
+    var yıl = $("#label").html();
+    var tarih = day + month + yıl;
+    
+   
+   
+    $(".active-date").click(function () {
 
-
-        $.ajax({
+        event_data["events"].splice(0, event_data["events"].length);
+          $.ajax({
             url: '/Home/EtkinlikGetir',
             type: 'POST',
             async: false,
             data: { date: tarih },
-            success: function (data) {
+       success: function (data) {
+           
+           $(data).each(function (index, value) {
+              
+               console.log(value);
+             
+                 
+                   event_data.events.push(value);
+                   show_events(event_data.events, month, day);
+         
+                    
 
-                $(data).each(function (value) {
-                    console.log(value);
-                    event_data.events.push(data);
-                    show_events(event_data.events, month, day);
                 });
-
-
-            },
+               
+       },
             error: function (hata, thrownError) {
                 alert(hata.status);
                 alert(thrownError);
                 alert(hata.responseText);
             }
-        });
-        });
-    show_events(event.data.events, event.data.month, event.data.day);
-    };
+   });
+    
 
+        //show_events(event.data.events, event.data.month, event.data.day);
+    });
+}
 // Event handler for when a month is clicked
 function month_click(event) {
     $(".events-container").show(250);
@@ -209,9 +222,22 @@ function new_event(event) {
                 'Kisi': Kisi
             },
             success: function (data) {
-            alert(data.d);
-        }
-        })
+
+                $(data).each(function (index, value) {
+                    console.log(value);
+                    event_data.events.push(value);
+                    show_events(event_data.events, month, day);
+                });
+
+
+            },
+            error: function (hata, thrownError) {
+                alert(hata.status);
+                alert(thrownError);
+                alert(hata.responseText);
+            }
+        });
+        //show_events(event.data.events, event.data.month, event.data.day);
     });
   
 }
@@ -236,9 +262,13 @@ function new_event_json(EtkinlikAdi, Not, date, day, Kisi) {
 function show_events(events, month, day) {
    
     // Clear the dates container
+  
     $(".events-container").empty();
     $(".events-container").show(250);
+
     console.log(event_data["events"]);
+   
+  
     // If there are no events for this date, notify the user
     if (events.length === 0) {
         var event_card = $("<div class='event-card'></div>");
@@ -253,9 +283,9 @@ function show_events(events, month, day) {
         for (var i = 0; i < events.length; i++) {
            
                 var event_card = $("<div class='event-card'></div>");
-                var event_EtkinlikAdi = $("<div class='event-EtkinlikAdi'>Etkinlik Adı:" + events[i]["EtkinlikAdi"] + "</div>");
-                var event_Kisi = $("<div class='event-Kisi'>Kişi:" + events[i]["Kisi"] + " </div>");
-                var event_Not = $("<div class='event-Not'>Not:" + events[i]["Not"] + " </div>");
+                var event_EtkinlikAdi = $("<div class='event-EtkinlikAdi'>Etkinlik Adı:" + events[i].EtkinlikAdi + "</div>");
+                var event_Kisi = $("<div class='event-Kisi'>Kişi:" + events[i].Kisi + " </div>");
+                var event_Not = $("<div class='event-Not'>Not:" + events[i].Not + " </div>");
           
             
            
@@ -265,15 +295,17 @@ function show_events(events, month, day) {
             //    });
             //    event_Not = $("<div class='event-cancelled'>İptal Edildi.</div>");
             //}
+            $(event_card).empty();
             $(event_card).append(event_EtkinlikAdi).append(event_Not).append(event_Kisi);
             $(".events-container").append(event_card);
+          
         }
     }
 }
-
+var events = [];
 // Checks if a specific date has any events
 function check_events(day, month, year,) {
-    var events = [];
+    
     for (var i = 0; i < event_data["events"].length; i++) {
         var event = event_data["events"][i];
         if (event["day"] === day &&
@@ -287,25 +319,7 @@ function check_events(day, month, year,) {
 
 // Given data for events in JSON format
 var event_data = {
-    "events": [
-        {
-            "EtkinlikAdi": "parti1 ",
-            "Not": "selam",
-            "Kisi":"ipek",
-            "year": 2020,
-            "month": 7,
-            "day": 25,
-            "cancelled": true
-        },
-        {
-            "EtkinlikAdi": "parti2 ",
-            "Not": "naber",
-            "Kisi": "özlem",
-            "year": 2020,
-            "month": 7,
-            "day": 8
-        }
-    ]
+    "events": []
 };
 
 const months = [

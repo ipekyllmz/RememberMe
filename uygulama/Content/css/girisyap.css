@@ -1,6 +1,6 @@
 ﻿.container {
     width: 400px;
-    height: 450px;
+/*    height: 450px;*/
     position: relative;
     top: 80px;
     border-radius: 10px;
@@ -35,16 +35,16 @@ a.buton {
     font-size: 40px;
 }
 .buton {
-    left: 135px;
-    position: relative;
+    
+/*    position: relative;*/
     background: -moz-linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);
     background: -webkit-linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);
     background: linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);
     border: 2px solid dashed;
     border-radius: 5px;
     color: white;
-    width: 80px;
-    height: 45px;
+    width: 70px;
+    height: 35px;
 }
 p {
     margin-top: 10px;

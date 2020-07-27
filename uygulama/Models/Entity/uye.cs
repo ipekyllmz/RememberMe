@@ -35,5 +35,11 @@ namespace uygulama.Models.Entity
 
         [DisplayName("Şifre Doğrula"), Required(ErrorMessage = "Bu alan boş bırakılamaz"), MinLength(6), DataType(DataType.Password,ErrorMessage ="Şifre ile uyuşmamaktadır"), Compare(nameof(Sifre))]
         public string Sifre2 { get; set; }
+
+        public Guid ActivateGuid { get; set; }
+        public bool isactivate { get; set; }
+        public bool Benihatirla { get; set; }
+
+
     }
 }

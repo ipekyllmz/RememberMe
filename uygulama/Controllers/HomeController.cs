@@ -10,6 +10,7 @@ using System.Data.Entity.Validation;
 using System.Web.UI.WebControls;
 using uygulama.Helpers;
 using System.Web;
+using System.Runtime.ConstrainedExecution;
 
 namespace uygulama.Controllers
 {
@@ -25,10 +26,11 @@ namespace uygulama.Controllers
                 HttpCookie kayitlicerez = Request.Cookies["cerezim"];
 
                 Session["UyeMail"] = kayitlicerez.Values["UyeMail"];
-                Session["ID"] = kayitlicerez.Values["ID"].ToString();
-                Session["adsoyad"] = kayitlicerez.Values["UyeAdi"];
+                Session["ID"] = kayitlicerez.Values["ID"];
+                Session["UyeAdi"] = kayitlicerez.Values["UyeAdi"];
+                Session["UyeSoyadi"] = kayitlicerez.Values["UyeSoyadi"];
 
-                return RedirectToAction("GirisYap", "Home");
+                return RedirectToAction("Anasayfa", "Home");
             }
 
             return View();
@@ -63,15 +65,16 @@ namespace uygulama.Controllers
                         Session["UyeAdi"] = kayitli.UyeAdi;
                         Session["UyeSoyadi"] = kayitli.UyeSoyadi;
 
+
+
                         return Json(kayitli, JsonRequestBehavior.AllowGet);
                     }
 
 
                     else
                     {
-                        ViewBag.uyari = "E-Mail Adresinizi veya Şifrenizi Kontrol Ediniz";
 
-                        return View();
+                        return Json(kayitli, JsonRequestBehavior.AllowGet);
                     }
                 }
                 else
@@ -112,7 +115,7 @@ namespace uygulama.Controllers
             {
                 Response.Cookies["cerezim"].Expires = DateTime.Now.AddDays(-1);
             }
-            return RedirectToAction("GirisYap", "Home");
+            return RedirectToAction("GirisYap","Home");
         }
 
         public static string MD5Sifrele(string Sifre)
@@ -247,18 +250,7 @@ namespace uygulama.Controllers
 
         }
 
-        public ActionResult Index()
-        {
-            if (Request.Cookies["cerezim"] != null)
-            {
-                HttpCookie kayitlicerez = Request.Cookies["cerezim"];
-                Session["eposta"] = kayitlicerez.Values["eposta"];
-                Session["yetkiid"] = kayitlicerez.Values["yetkiid"];
-                Session["adsoyad"] = kayitlicerez.Values["adsoyad"];
-                return RedirectToAction("Panel", "Ana");
-            }
-            return View();
-        }
+       
 
     }
 }

@@ -31,8 +31,14 @@ $(".buton").click(function (e) {
         }
     });
 
+    function FormSifirla($form) {
+        $form.find('input:text, input:password').val('');
+        $form.find('input:radio').removeAttr('selected');
+       
+    }
+
+    FormSifirla($('#form')); // form id 
+    FormSifirla($('form[name=form]')); // form adı
 });
 
-//function GirisYap() {
-//    window.location.href = $(this).data('url');
-//}
+

@@ -12,12 +12,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
 
     <style>
-        .cikisbuton {
-            color: floralwhite;
+        #cikisbuton {
+            color: blueviolet;
             font-family: 'Fira Sans', sans-serif;
+            position: relative;
+            left: 62rem;
         }
 
-            .cikisbuton:hover {
+            #cikisbuton:hover {
                 text-decoration-line: none;
             }
 
@@ -62,14 +64,14 @@
                         <hr />
                         <a href="../Home/Dogumgunleri"  class="side-a" style="color: floralwhite;font-family: 'PT Sans', sans-serif;font-size: 20px;text-decoration-line:none">Doğum Günleri</a>
                     </div>
-                    <div style="        font-size: 30px;
+                    <div style="font-size: 30px;
         cursor: pointer;
         font-family: 'Damion', cursive;
         color: #e4dfeb;
     " onclick="openNav()">
                         &#9776; &nbsp; RememberMe
                     </div>
-                    <button type="button" id="cikisyap" class="btn btn-light btn-sm">@Html.ActionLink("Çıkış Yap", "GirisYap", "Home",new { @class="cikisbuton" })</button>
+                    <button type="button" id="cikisbuton" class="btn btn-light btn-sm">Çıkış Yap</button>
                 </div>
             </nav>
         </div>
@@ -100,6 +102,7 @@
     <script src="file:///C:/Users/90538/AppData/Local/Temp/Rar$EXa1568.37687/startbootstrap-simple-sidebar-gh-pages/vendor/jquery/jquery.min.js"></script>
     <script src="file:///C:/Users/90538/AppData/Local/Temp/Rar$EXa1568.37687/startbootstrap-simple-sidebar-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/Scripts/sidebar.js"></script>
+    <script src="~/Scripts/anasayfa.js"></script>
    
 
 </body>

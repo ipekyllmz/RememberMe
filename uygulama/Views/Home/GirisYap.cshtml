@@ -25,7 +25,7 @@
         <br /> <br />
         @if (Session["login"] == null)
         {
-            <form>
+            <form id="form" name="form">
 
                 <div class="form-group">
                     <label for="exampleInputKullaniciAdi" class="text-light">Kullanıcı Adı</label>
@@ -41,11 +41,9 @@
                     <label class="form-check-label text-light" for="exampleCheck1">Beni Hatırla</label>
                 </div>
 
-                @*@Html.Hidden("RedirectTo", Url.Action("Anasayfa", "Home"))*@
-                @*<a href="/Home/Anasayfa">*@
+               
             <button class="buton">Giriş Yap </button>
-                @*</a>*@
-
+              
 
                 <p> <a href="#" class="text-light">Şifremi Unuttum</a></p>
                 <p> <a href="/Uye/UyeOl" class="text-light" style="text-decoration-line:underline;">Üye olmak için Tıklayın..</a></p>

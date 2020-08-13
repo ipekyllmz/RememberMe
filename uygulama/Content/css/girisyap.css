@@ -1,26 +1,29 @@
-﻿.container {
+﻿
+.container {
     width: 400px;
-/*    height: 450px;*/
+    /*    height: 450px;*/
     position: relative;
     top: 80px;
-    border-radius: 10px;
+    left:330px;
+    border-radius: 15px;
     background: #667eea;
     background: -moz-linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);
     background: -webkit-linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);
     background: linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);
-    font-family: 'PT Sans Narrow', sans-serif;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
+    box-shadow: 4px 2px 16px rgba(0, 0, 0, 0.4);
 }
 
 body {
-    background-image: url(../../Content/arkaplan/white-painted-wall-1939485.jpg);
     width: 100%;
+    background-image: url('../img/office-3126597_1920.jpg');
     height: 100%;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
 }
+
 
 a.buton {
     color: floralwhite;
@@ -40,12 +43,25 @@ a.buton {
     background: -moz-linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);
     background: -webkit-linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);
     background: linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);
-    border: 2px solid dashed;
+    border: 1px solid white;
     border-radius: 5px;
     color: white;
     width: 70px;
     height: 35px;
 }
+#facebuton {
+    background: -moz-linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);
+    background: -webkit-linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);
+    background: linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);
+    border: 1px solid white;
+    border-radius: 5px;
+    color: white;
+    width: 155px;
+    height: 35px;
+    position:relative;
+    left:15px;
+}
 p {
     margin-top: 10px;
 }
+

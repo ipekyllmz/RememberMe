@@ -205,6 +205,7 @@
     <Content Include="Content\fullcalendar.print.min.css" />
     <Content Include="Content\img\facebook.png" />
     <Content Include="Content\img\instagram.png" />
+    <Content Include="Content\img\office-3126597_1920.jpg" />
     <Content Include="Content\img\twitter.png" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\anasayfa.js" />

@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
-using System.Web.Mvc;
 using System.Security.Cryptography;
 using System.Text;
-using uygulama.Models.Entity;
-using uygulama.Models.Context;
-using System.Data.Entity.Validation;
+using System.Web;
+using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using uygulama.Helpers;
-using System.Web;
-using System.Runtime.ConstrainedExecution;
+using uygulama.Models.Context;
+using uygulama.Models.Entity;
 
 namespace uygulama.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         DatabaseContext db = new DatabaseContext();
@@ -115,9 +115,34 @@ namespace uygulama.Controllers
             {
                 Response.Cookies["cerezim"].Expires = DateTime.Now.AddDays(-1);
             }
-            return RedirectToAction("GirisYap","Home");
+            return RedirectToAction("GirisYap", "Home");
         }
 
+        public ActionResult SifremiUnuttum(string KullaniciAdi)
+        {
+            var kayitliuye = db.Kullanıcı.Where(a => a.KullaniciAdi == KullaniciAdi).FirstOrDefault();
+
+            var otoSifre = OtoSifre();
+            kayitliuye.Sifre = otoSifre;
+            kayitliuye.Sifre2 = otoSifre;
+            var kayitlisifre = kayitliuye.Sifre;
+
+            string siteUri = ConfigHelper.Get<string>("SiteRootUri");
+            string sifreUri = string.Format("{0}/Home/GirisYap", siteUri);
+            string body = string.Format("Merhaba {0};<br><br>Şifreniz:{1};<br>Giriş yapmak için <a href='{2}' target='_blank'>tıklayınız</a>", kayitliuye.KullaniciAdi, kayitlisifre, sifreUri);
+
+            MailHelper.SendMail(body, kayitliuye.UyeMail, "RememberMe Şifremi Unuttum");
+
+            kayitlisifre = MD5Sifrele(kayitliuye.Sifre);
+
+            int sonuc = db.SaveChanges();
+
+            return View();
+        }
+        public ActionResult SifremiUnuttumOk()
+        {
+            return View();
+        }
         public static string MD5Sifrele(string Sifre)
         {
 
@@ -138,6 +163,35 @@ namespace uygulama.Controllers
 
             //hexadecimal(onaltılık) stringi geri döndürdük.
             return sb.ToString();
+        }
+        public string Decrypt(string Sifre)
+        {
+            byte[] data = Convert.FromBase64String(Sifre);
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                byte[] keys = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(Sifre));
+                using (TripleDESCryptoServiceProvider tripDes = new TripleDESCryptoServiceProvider() { Key = keys, Mode = CipherMode.ECB, Padding = PaddingMode.PKCS7 })
+                {
+                    ICryptoTransform transform = tripDes.CreateDecryptor();
+                    byte[] results = transform.TransformFinalBlock(data, 0, data.Length);
+                    return UTF8Encoding.UTF8.GetString(results);
+                }
+            }
+        }
+        public static string OtoSifre()
+        {
+            Random Rnd = new Random();
+            StringBuilder StrBuild = new StringBuilder();
+            for (int i = 0; i < 7; i++)
+            {
+                int ASCII = Rnd.Next(32, 127);
+                char Karakter = Convert.ToChar(ASCII);
+                StrBuild.Append(Karakter);
+
+            }
+
+            return StrBuild.ToString();
+
         }
 
         public ActionResult Anasayfa()
@@ -250,7 +304,7 @@ namespace uygulama.Controllers
 
         }
 
-       
+
 
     }
 }

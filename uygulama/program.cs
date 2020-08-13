@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using uygulama.Models.Context;
+﻿using uygulama.Models.Context;
 
 namespace uygulama
 {

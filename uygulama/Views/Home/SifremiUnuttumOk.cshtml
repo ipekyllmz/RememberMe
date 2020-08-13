@@ -1,4 +1,4 @@
-﻿ 
+﻿
 @{
     Layout = null;
 }
@@ -8,8 +8,9 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>UyeAktivasyonuOk</title>
+    <title>SifremiUnuttum</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Damion&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
 </head>
@@ -17,7 +18,7 @@
     <nav class="navbar navbar-expand-lg navbar-light  border-bottom" id="nav" style=" background: #667eea; background: -moz-linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%); background: -webkit-linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%); background: linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);">
         <a class="navbar-brand" href="#" style="font-size: 25px;cursor: pointer;font-family: 'Damion', cursive; color: #e4dfeb;" onclick="openNav()">RememberMe</a>
     </nav>
-    <div class="card" style="        width: 35rem;
+    <div class="card" style="width: 35rem;
         height: 12rem;
         position: relative;
         left: 23rem;
@@ -28,8 +29,9 @@
         background: linear-gradient(right, #764ba2 0%, #667eea 80%, #667eea 100%);">
         <div class="card-body shadow p-3 bg-white rounded">
             <h5 class="card-title">@TempData["TempDataVeri"]</h5>
-            <p id="p1" style=" font-family: 'Fira Sans', sans-serif; position: relative; top: 2rem;text-align: center;">Aktivasyon için lütfen mail adresinizi kontrol ediniz.</p>
-            @*<button type="button" class="btn btn-primary" id="buton" style="position: relative; top: 4rem; left: 13rem" onclick="window.location.href="@Url.Action("Uye", "Uye")">Mail Yolla</button>*@
+            <label for="exampleInputKullaniciAdi" style="color: darkslateblue; font-family: 'Fira Sans', sans-serif;">Kullanıcı Adı:</label>
+            <input type="text" class="form-control" id="exampleInputKullaniciAdi">
+            <button type="button" class="btn btn-primary" id="buton" style="position: relative;top: 2rem;left: 12rem;font-family: 'Fira Sans', sans-serif;">Yeni Şifre Yolla</button>
 
         </div>
     </div>
@@ -49,12 +51,27 @@
 
     <script src="~/Scripts/jquery-3.5.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-   <script>
- 
-       setTimeout(function () {
-           window.location.href = "/Home/GirisYap";
-           
-       }, 5000)
-   </script>
+    <script>
+       $("#buton").click(function (e) {
+           e.preventDefault();
+           $.ajax({
+               url: '/Home/SifremiUnuttum',
+               type: 'POST',
+               data: {
+                   KullaniciAdi: $('#exampleInputKullaniciAdi').val(),
+               },
+               success: setTimeout(function () {
+                       window.location.href = "/Home/GirisYap";
+
+                   }, 10000),
+               error: function (hata, thrownError) {
+                   alert(hata.status);
+                   alert(thrownError);
+                   alert(hata.responseText);
+               }
+           });
+
+       });
+    </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 ﻿@model uygulama.Models.Entity.uye
+
 @{
     Layout = null;
 }
@@ -37,15 +38,16 @@
                     <input type="password" class="form-control" id="exampleInputPassword1">
                 </div>
                 <div class="form-group form-check">
-                    <input type="radio" class="form-check-input" name="radiobuton" id="exampleCheck1" >
+                    <input type="radio" class="form-check-input" name="radiobuton" id="exampleCheck1">
                     <label class="form-check-label text-light" for="exampleCheck1">Beni Hatırla</label>
                 </div>
 
-               
-            <button class="buton">Giriş Yap </button>
-              
 
-                <p> <a href="#" class="text-light">Şifremi Unuttum</a></p>
+                <button class="buton">Giriş Yap </button>
+                <button class="buton">Facebook ile Giriş Yap</button>
+
+
+                <p> <a href="/Home/SifremiUnuttumOk" class="text-light" id="sifreUnut">Şifremi Unuttum</a></p>
                 <p> <a href="/Uye/UyeOl" class="text-light" style="text-decoration-line:underline;">Üye olmak için Tıklayın..</a></p>
             </form>
         }

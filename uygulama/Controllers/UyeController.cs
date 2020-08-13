@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.Common;
-using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using uygulama.Helpers;
 using uygulama.Models.Context;
@@ -69,14 +62,14 @@ namespace uygulama.Controllers
                 {
                     uye.ActivateGuid = Guid.NewGuid();
                     var result = db.Kullanıcı.Add(uye);
-                    
+
                     if (result.ID == 0)
                     {
                         int sonuc = db.SaveChanges();
 
-                       
+
                         TempData["Veri"] = uye.KullaniciAdi;
-                        
+
 
                         ViewBag.Result = "Kişi Kaydedilmiştir.";
                         ViewBag.Status = "ok";
@@ -113,24 +106,8 @@ namespace uygulama.Controllers
 
         }
 
-       
-        //public ActionResult MailGonder(string username)
-        //{
-            
-        //    var user = db.Kullanıcı.Where(a => a.UyeMail == uye.uyeMail).FirstOrDefault();
 
 
-
-        //    string siteUri = ConfigHelper.Get<string>("SiteRootUri");
-        //    string activateUri = string.Format("{0}/Uye/UyeAktivasyonu/{1}", siteUri, user.ActivateGuid);
-        //    string body = string.Format("Merhaba {0};<br><br>Hesabınızı aktifleştirmek için <a href='{1}' target='_blank'>tıklayınız</a>", user.KullaniciAdi, activateUri);
-
-        //    MailHelper.SendMail(body, user.UyeMail, "RememberMe Hesap Aktifleştirme");
-
-        //    ViewBag.Message = "Lütfen mailinize gelen aktivasyon işlemini tamamlayınız.";
-
-        //    return RedirectToAction("UyeAktivasyonu","Uye");
-        //}
 
 
         public static string MD5Sifrele(string Sifre)
@@ -157,9 +134,9 @@ namespace uygulama.Controllers
 
         public ActionResult UyeAktivasyonu(Guid id)
         {
-          
 
-            var selectedUser = db.Kullanıcı.Where(c=>c.ActivateGuid==id).FirstOrDefault();
+
+            var selectedUser = db.Kullanıcı.Where(c => c.ActivateGuid == id).FirstOrDefault();
 
 
             if (selectedUser != null && selectedUser.isactivate)
@@ -168,7 +145,7 @@ namespace uygulama.Controllers
                 db.SaveChanges();
 
                 return RedirectToAction("Anasayfa", "Home");
-               
+
             }
 
             else
@@ -184,7 +161,7 @@ namespace uygulama.Controllers
 
 
             }
-           
+
         }
 
         public ActionResult UyeAktivasyonuOk()

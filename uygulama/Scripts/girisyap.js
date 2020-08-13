@@ -15,14 +15,14 @@ $(".buton").click(function (e) {
                     console.log(value);
                 });
                 window.location.href = "/Home/Anasayfa";
-                
+
             } else {
                 $(data).each(function (index, value) {
                     console.log(value);
                 });
-                window.location.href = "/Uye/UyeAktivasyonu?id=" + data.ActivateGuid;    
+                window.location.href = "/Uye/UyeAktivasyonu?id=" + data.ActivateGuid;
             }
-           
+
         },
         error: function (hata, thrownError) {
             alert(hata.status);
@@ -34,11 +34,29 @@ $(".buton").click(function (e) {
     function FormSifirla($form) {
         $form.find('input:text, input:password').val('');
         $form.find('input:radio').removeAttr('selected');
-       
+
     }
 
     FormSifirla($('#form')); // form id 
     FormSifirla($('form[name=form]')); // form adı
+
+    //$("#sifreUnut").click(function (e) {
+    //    e.preventDefault();
+    //    $.ajax({
+    //        url: '/Home/SifremiUnuttumOk',
+    //        type: 'POST',
+    //        data: {},
+    //        success: function () {
+
+    //        },
+    //        error: function (hata, thrownError) {
+    //            alert(hata.status);
+    //            alert(thrownError);
+    //            alert(hata.responseText);
+    //        }
+    //    });
+
+    //});
 });
 
 

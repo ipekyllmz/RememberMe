@@ -9,10 +9,12 @@ namespace uygulama
     {
         protected void Application_Start()
         {
+            AreaRegistration.RegisterAllAreas();
 
             Database.SetInitializer<DatabaseContext>(new DropCreateDatabaseIfModelChanges<DatabaseContext>());
-            AreaRegistration.RegisterAllAreas();
+           
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+          
 
         }
 

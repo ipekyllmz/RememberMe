@@ -77,14 +77,14 @@ namespace uygulama.Controllers
 
                         gelenuye = db.Kullanıcı.Where(a => a.ActivateGuid == Guid.NewGuid());
                         string siteUri = ConfigHelper.Get<string>("SiteRootUri");
-                        string activateUri = string.Format("{0}/Uye/UyeAktivasyonu/{1}", siteUri, uye.ActivateGuid);
+                        string activateUri = string.Format("{0}/Home/GirisYap/{1}", siteUri, uye.ActivateGuid);
                         string body = string.Format("Merhaba {0};<br><br>Hesabınızı aktifleştirmek için <a href='{1}' target='_blank'>tıklayınız</a>", uye.KullaniciAdi, activateUri);
 
                         MailHelper.SendMail(body, uye.UyeMail, "RememberMe Hesap Aktifleştirme");
 
-                        ViewBag.Result = "Lütfen mailinize gelen aktivasyon işlemini tamamlayınız.";
 
-                        return View();
+
+                        return RedirectToAction("UyeAktivasyonuOk", "Uye");
                     }
                     else
                     {
@@ -152,7 +152,7 @@ namespace uygulama.Controllers
             {
 
                 string siteUri = ConfigHelper.Get<string>("SiteRootUri");
-                string activateUri = string.Format("{0}/Uye/UyeAktivasyonu/{1}", siteUri, selectedUser.ActivateGuid);
+                string activateUri = string.Format("{0}/Home/GirisYap{1}", siteUri, selectedUser.ActivateGuid);
                 string body = string.Format("Merhaba {0};<br><br>Hesabınızı aktifleştirmek için <a href='{1}' target='_blank'>tıklayınız</a>", selectedUser.KullaniciAdi, activateUri);
 
                 MailHelper.SendMail(body, selectedUser.UyeMail, "RememberMe Hesap Aktifleştirme");

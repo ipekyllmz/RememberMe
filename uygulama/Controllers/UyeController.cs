@@ -77,14 +77,14 @@ namespace uygulama.Controllers
 
                         gelenuye = db.Kullanıcı.Where(a => a.ActivateGuid == Guid.NewGuid());
                         string siteUri = ConfigHelper.Get<string>("SiteRootUri");
-                        string activateUri = string.Format("{0}/Home/GirisYap/{1}", siteUri, uye.ActivateGuid);
+                        string activateUri = string.Format("{0}/Uye/UyeAktivasyonu?id={1}", siteUri, uye.ActivateGuid);
                         string body = string.Format("Merhaba {0};<br><br>Hesabınızı aktifleştirmek için <a href='{1}' target='_blank'>tıklayınız</a>", uye.KullaniciAdi, activateUri);
 
                         MailHelper.SendMail(body, uye.UyeMail, "RememberMe Hesap Aktifleştirme");
 
 
 
-                        return RedirectToAction("UyeAktivasyonuOk", "Uye");
+                        return RedirectToAction("GirisYap", "Home");
                     }
                     else
                     {
@@ -105,9 +105,6 @@ namespace uygulama.Controllers
             return View();
 
         }
-
-
-
 
 
         public static string MD5Sifrele(string Sifre)
@@ -144,7 +141,7 @@ namespace uygulama.Controllers
             {
                 db.SaveChanges();
 
-                return RedirectToAction("Anasayfa", "Home");
+                return RedirectToAction("UyeAktivasyonuOk", "Uye");
 
             }
 
